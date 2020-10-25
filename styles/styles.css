@@ -1,0 +1,64 @@
+.sidebar-main {
+    height: 100%;
+    width: 0; /* change this with JavaScript */
+    position: fixed; /* stay in place */
+    z-index: 1; /* stay on top */
+    top: 0;
+    left: 0;
+    background-color: #111; /* black background color */
+    overflow-x: hidden; /* disable horizontal scrollbar */
+    padding-top: 60px; /* place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition sidebar slide effect */
+}
+
+/* links in the sidebar */
+.sidebar-main a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s; /* creates a transition effect for hover change */
+}
+
+/* hover over <a> tags */
+.sidebar-main a:hover {
+    color: #f1f1f1;
+}
+
+/* position and style the close button */
+.sidebar-main .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* button used to open the sidebar */
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+}
+
+/* when mouse is hovered over the open button */
+.openbtn:hover {
+    background-color: #444;
+}
+
+/* use this if you want to push the page content to the right */
+#mainContent {
+    transition: margin-left 0.5s; /* transition effect */
+    padding: 20px;
+}
+
+/* on smaller screens, where height is less than 450px, change the
+style of the sidenav (less padding + smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px}
+    .sidebar a {font-size: 18px}
+}
