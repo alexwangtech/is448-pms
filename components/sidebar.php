@@ -1,5 +1,5 @@
 <!-- Sidebar component + JavaScript functions for transition -->
-<!-- To use this effectivetly, you NEED to have a #mainContent div for your main content! -->
+<!-- To use this effectively, you NEED to have a #mainContent div for your main content! -->
 <!-- If you are not using navbar.php, then you also need to include sidebar-button.php! -->
 <!-- Reference Documentation: https://www.w3schools.com/howto/howto_js_collapse_sidebar.asp -->
 
