@@ -62,3 +62,21 @@ style of the sidenav (less padding + smaller font size) */
     .sidebar {padding-top: 15px}
     .sidebar a {font-size: 18px}
 }
+
+#calendar table {
+    border-collapse: separate;
+}
+
+#calendar th, tr {
+    height: 100px;
+    width: 200px;
+}
+
+#calendar tr {
+    font-size: 30px;
+}
+
+#calendar th {
+    font-size: 30px;
+
+}
