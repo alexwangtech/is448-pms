@@ -1,49 +1,37 @@
-(function () {
-
+class Calendar {
     // CONSTANTS
-    const ID = 'calendar';
-    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+    MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
         'August', 'September', 'October', 'November', 'December'];
 
-    // Members
-    let mainDiv;
-    let header;
-    let table;
-    let buttonDiv;
-    let prevButton;
-    let nextButton;
-    let currMonth;
-    let currDay;
-    let currDate;
-    let currYear;
+    constructor(mainDiv) {
+        this.mainDiv = mainDiv;
 
-    function init() {
         // Create the main layout elements
-        mainDiv = document.getElementById(ID);
-        header = document.createElement('h2');
-        header.classList.add('w-100');
-        table = document.createElement('table');
-        buttonDiv = document.createElement('div');
+        mainDiv = document.getElementById(mainDiv);
+        this.header = document.createElement('h2');
+        this.header.classList.add('w-100');
+        this.table = document.createElement('table');
+        this.buttonDiv = document.createElement('div');
 
         // get the current date,sot hat we can set it on the calendar
         let date = new Date();
-        currMonth = date.getMonth() + 1; // REMEMBER: The range is 0-11, so we need to increment
-        currDay = date.getDay(); // REMEMBER: THe range is 0-6, NOT 1-7
-        currDate = date.getDate();
-        currYear = date.getFullYear();
+        this.currMonth = date.getMonth() + 1; // REMEMBER: The range is 0-11, so we need to increment
+        this.currDay = date.getDay(); // REMEMBER: THe range is 0-6, NOT 1-7
+        this.currDate = date.getDate();
+        this.currYear = date.getFullYear();
 
         // create the buttons + event listeners
-        prevButton = document.createElement('button');
-        prevButton.innerHTML = 'Previous';
-        nextButton = document.createElement('button');
-        nextButton.innerHTML = 'Next';
-        buttonDiv.appendChild(prevButton);
-        buttonDiv.appendChild(nextButton);
+        this.prevButton = document.createElement('button');
+        this.prevButton.innerHTML = 'Previous';
+        this.nextButton = document.createElement('button');
+        this.nextButton.innerHTML = 'Next';
+        this.buttonDiv.appendChild(this.prevButton);
+        this.buttonDiv.appendChild(this.nextButton);
 
-        prevButton.addEventListener('click', function () {
+        this.prevButton.addEventListener('click', function () {
             if (currMonth == 1) {
                 currMonth = 12;
-                --currYear;
+                --this.currYear;
             } else {
                 --currMonth;
             }
@@ -51,10 +39,10 @@
             renderCalendar();
         });
 
-        nextButton.addEventListener('click', function () {
+        this.nextButton.addEventListener('click', function () {
             if (currMonth == 12) {
                 currMonth = 1;
-                ++currYear;
+                ++this.currYear;
             } else {
                 ++currMonth;
             }
@@ -65,26 +53,26 @@
         // create the top div using flexbox properties for alignment
         let topDiv = document.createElement('div');
         topDiv.classList.add('d-flex', 'justify-content-center');
-        topDiv.appendChild(header);
+        topDiv.appendChild(this.header);
         let rightDiv = document.createElement('div');
         rightDiv.classList.add('d-flex', 'justify-content-end');
-        rightDiv.appendChild(prevButton);
-        rightDiv.appendChild(nextButton);
+        rightDiv.appendChild(this.prevButton);
+        rightDiv.appendChild(this.nextButton);
         topDiv.appendChild(rightDiv);
 
         mainDiv.appendChild(topDiv);
-        mainDiv.appendChild(table);
-        mainDiv.append(buttonDiv);
+        mainDiv.appendChild(this.table);
+        mainDiv.append(this.buttonDiv);
 
-        renderCalendar();
+        this.renderCalendar();
     }
 
-    function renderCalendar() {
+    renderCalendar() {
         // clear everything
-        table.innerHTML = '';
+        this.table.innerHTML = '';
 
         // render the current month
-        header.innerHTML = MONTHS[currMonth - 1] + " " + currYear;
+        this.header.innerHTML = MONTHS[this.currMonth - 1] + " " + this.currYear;
 
         // create the weekday headers
         let tableHeaderRow = document.createElement('tr');
@@ -114,14 +102,14 @@
                     break;
             }
             tableHeaderRow.appendChild(tableHeader);
-            table.appendChild(tableHeaderRow);
+            this.table.appendChild(tableHeaderRow);
         }
 
         // to make sure we render on the right weekday
         let firstDayRendered = false;
         let count = 1;
-        let daysInMonth = getDaysInMonth(currMonth, currYear);
-        let firstDay = getFirstDay(currYear, currMonth - 1);
+        let daysInMonth = this.getDaysInMonth(this.currMonth, this.currYear);
+        let firstDay = this.getFirstDay(this.currYear, this.currMonth - 1);
 
         while (count <= daysInMonth) {
             let currRow = document.createElement('tr');
@@ -131,9 +119,6 @@
                 currTd.classList.add('border');
 
                 if (!firstDayRendered) {
-                    console.log('i value: ' + i);
-                    console.log('currDay: ' + currDay);
-
                     if (i == firstDay) {
                         currTd.innerHTML = count;
                         firstDayRendered = true;
@@ -148,7 +133,7 @@
                 currRow.appendChild(currTd);
             }
 
-            table.appendChild(currRow);
+            this.table.appendChild(currRow);
         }
     }
 
@@ -157,17 +142,17 @@
      * Source: https://www.w3resource.com/javascript-exercises/javascript-date-exercise-3.php
      * https://stackoverflow.com/questions/1184334/get-number-days-in-a-specified-month-using-javascript
      */
-    function getDaysInMonth(month, year) {
+    getDaysInMonth(month, year) {
         // Here January is 1 based
         //Day 0 is the last day in the previous month
         return new Date(year, month, 0).getDate();
         // Here January is 0 based
         // return new Date(year, month+1, 0).getDate();
-    };
-
-    function getFirstDay(year, monthIndex) {
-        return new Date(year, monthIndex, 1).getDay();
     }
 
-    init();
-})();
+    getFirstDay(year, monthIndex) {
+        return new Date(year, monthIndex, 1).getDay();
+    }
+}
+
+var calendar = new Calendar('calendar');

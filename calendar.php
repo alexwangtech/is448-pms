@@ -16,9 +16,8 @@
     <?php include 'components/sidebar.php';?>
     <div id="mainContent">
         <?php include 'components/navbar.php';?>
-        <div id="calendar"></div>
+        <?php include 'components/calendar-component.php';?>
     </div>
-    <script src="js/calendar.js"></script>
 </body>
 
 </html>
