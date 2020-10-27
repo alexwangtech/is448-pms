@@ -28,7 +28,7 @@ class Calendar {
         this.buttonDiv.appendChild(this.prevButton);
         this.buttonDiv.appendChild(this.nextButton);
 
-        this.prevButton.addEventListener('click', function () {
+        this.prevButton.addEventListener('click', () => {
             if (this.currMonth == 1) {
                 this.currMonth = 12;
                 --this.currYear;
@@ -36,10 +36,10 @@ class Calendar {
                 --this.currMonth;
             }
 
-            renderCalendar();
+            this.renderCalendar();
         });
 
-        this.nextButton.addEventListener('click', function () {
+        this.nextButton.addEventListener('click', () => {
             if (this.currMonth == 12) {
                 this.currMonth = 1;
                 ++this.currYear;
@@ -47,7 +47,7 @@ class Calendar {
                 ++this.currMonth;
             }
 
-            renderCalendar();
+            this.renderCalendar();
         });
 
         // create the top div using flexbox properties for alignment
