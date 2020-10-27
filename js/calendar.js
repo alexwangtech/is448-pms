@@ -29,22 +29,22 @@ class Calendar {
         this.buttonDiv.appendChild(this.nextButton);
 
         this.prevButton.addEventListener('click', function () {
-            if (currMonth == 1) {
-                currMonth = 12;
+            if (this.currMonth == 1) {
+                this.currMonth = 12;
                 --this.currYear;
             } else {
-                --currMonth;
+                --this.currMonth;
             }
 
             renderCalendar();
         });
 
         this.nextButton.addEventListener('click', function () {
-            if (currMonth == 12) {
-                currMonth = 1;
+            if (this.currMonth == 12) {
+                this.currMonth = 1;
                 ++this.currYear;
             } else {
-                ++currMonth;
+                ++this.currMonth;
             }
 
             renderCalendar();
@@ -72,7 +72,7 @@ class Calendar {
         this.table.innerHTML = '';
 
         // render the current month
-        this.header.innerHTML = MONTHS[this.currMonth - 1] + " " + this.currYear;
+        this.header.innerHTML = this.MONTHS[this.currMonth - 1] + " " + this.currYear;
 
         // create the weekday headers
         let tableHeaderRow = document.createElement('tr');
