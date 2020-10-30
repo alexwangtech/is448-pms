@@ -11,7 +11,7 @@ class TaskList {
             {
                 taskName: "Cook some pasta",
                 taskDueDate: "2020-10-29",
-                description: "Our manager is hungry, please cook some past for him!"
+                description: "Our manager is hungry, please cook some pasta for him!"
             },
             {
                 taskName: "Buy a gaming laptop",
@@ -24,24 +24,51 @@ class TaskList {
                 description: "You need an IDE to program faster, idiot!"
             }
         ];
+
+        this.renderData();
     }
 
     renderData() {
         let mainDiv = document.getElementById(this.divId);
 
         this.testData.forEach((item) => {
-            let curr = document.createElement('div');
 
-            for (const property in item) {
-                let foo = document.createElement('h3');
-                foo.innerHTML = item[property];
-                curr.appendChild(foo);
-            }
+            // create the card outline and add class + style
+            let card = document.createElement('div');
+            card.classList.add('card', 'shadow', 'p-3', 'mb-5', 'bg-white', 'rounded');
+            card.style.width = '18rem';
 
-            mainDiv.appendChild(curr);
+            // create the card body
+            let cardBody = document.createElement('div');
+            cardBody.classList.add('card-body');
+
+            // create the card title
+            let cardTitle = document.createElement('h5');
+            cardTitle.classList.add('card-title');
+            cardTitle.innerHTML = item['taskName'];
+
+            // create the card subtitle
+            let cardSubtitle = document.createElement('h6');
+            cardSubtitle.classList.add('card-subtitle', 'mb-2', 'text-muted');
+            cardSubtitle.innerHTML = item['taskDueDate'];
+
+            // create the card description
+            let cardDescription = document.createElement('p');
+            cardDescription.classList.add('card-text');
+            cardDescription.innerHTML = item['description'];
+
+            // append all of the card body items into the card body
+            cardBody.append(cardTitle);
+            cardBody.append(cardSubtitle);
+            cardBody.append(cardDescription);
+
+            // append the card body into the card
+            card.append(cardBody);
+
+            // append the card into the main <div>
+            mainDiv.append(card);
         });
     }
 }
 
 var taskList = new TaskList('taskList');
-taskList.renderData();
