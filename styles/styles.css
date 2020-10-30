@@ -1,6 +1,6 @@
 .sidebar-main {
     height: 100%;
-    width: 0; /* change this with JavaScript */
+    width: 250px; /* change this with JavaScript */
     position: fixed; /* stay in place */
     z-index: 1; /* stay on top */
     top: 0;
@@ -54,6 +54,7 @@
 #mainContent {
     transition: margin-left 0.5s; /* transition effect */
     padding: 20px;
+    margin-left: 250px;
 }
 
 /* on smaller screens, where height is less than 450px, change the

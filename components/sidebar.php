@@ -5,14 +5,14 @@
 
 <div id="mainSidebar" class="sidebar-main">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contacts</a>
+    <a href="calendar.php">Calendar</a>
+    <a href="tasks.php">My Tasks</a>
+    <a href="#">Placeholder</a>
+    <a href="#">Placeholder</a>
 </div>
 
 <script>
-var active = false; /* this sets the state of the navbar toggle status */
+var active = true; /* this sets the state of the navbar toggle status */
 
 /* set the width of the container to 250px and the left
         margin of the page content to 250px */
