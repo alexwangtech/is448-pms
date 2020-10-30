@@ -35,7 +35,7 @@ class TaskList {
 
             // create the card outline and add class + style
             let card = document.createElement('div');
-            card.classList.add('card');
+            card.classList.add('card', 'shadow', 'p-3', 'mb-5', 'bg-white', 'rounded');
             card.style.width = '18rem';
 
             // create the card body
