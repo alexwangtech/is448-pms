@@ -22,6 +22,21 @@ class TaskList {
                 taskName: "Download VSCode",
                 taskDueDate: "2020-09-26",
                 description: "You need an IDE to program faster, idiot!"
+            },
+            {
+                taskName: "Purchase Office 360",
+                taskDueDate: "2020-10-31",
+                description: "We need to be able to use Microsoft Office stuff."
+            },
+            {
+                taskName: "Restock on paper",
+                taskDueDate: "2020-11-20",
+                description: "We need more paper. Lol."
+            },
+            {
+                taskName: "Rent an office",
+                taskDueDate: "2019-01-01",
+                description: "We really need an office place or something."
             }
         ];
 
@@ -37,7 +52,7 @@ class TaskList {
         let flexDiv;
         let counter = 1; // start at 1, increment towards "LINE_LIMIT"
 
-        this.testData.forEach((item) => {
+        this.testData.forEach((item, index) => {
 
             // create the outer div (for margins/spacing)
             let outerDiv = document.createElement('div');
@@ -87,8 +102,8 @@ class TaskList {
                 flexDiv.append(outerDiv);
                 counter = counter + 1;
             }
-            // if this is the end of the line, append + reset counter
-            else if (counter === LINE_LIMIT) {
+            // if this is the end of the line (or if last item), append + reset counter
+            else if (counter === LINE_LIMIT || (index + 1 === this.testData.length)) {
                 flexDiv.append(outerDiv);
                 mainDiv.append(flexDiv);
                 counter = 1;
