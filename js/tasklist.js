@@ -82,6 +82,8 @@ class TaskList {
             if (counter === 1) {
                 flexDiv = document.createElement('div');
                 flexDiv.classList.add('d-flex');
+                outerDiv.classList.remove('m-3');
+                outerDiv.classList.add('ml-0', 'mr-3', 'mt-3', 'mb-3');
                 flexDiv.append(outerDiv);
                 counter = counter + 1;
             }
