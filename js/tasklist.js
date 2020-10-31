@@ -29,13 +29,23 @@ class TaskList {
     }
 
     renderData() {
+        // CONSTANTS
+        const LINE_LIMIT = 4; // only 4 items per line
+
         let mainDiv = document.getElementById(this.divId);
+
+        let flexDiv;
+        let counter = 1; // start at 1, increment towards "LINE_LIMIT"
 
         this.testData.forEach((item) => {
 
+            // create the outer div (for margins/spacing)
+            let outerDiv = document.createElement('div');
+            outerDiv.classList.add('m-3');
+
             // create the card outline and add class + style
             let card = document.createElement('div');
-            card.classList.add('card', 'shadow', 'p-3', 'mb-5', 'bg-white', 'rounded');
+            card.classList.add('card', 'shadow', 'p-3', 'mb-5', 'bg-white', 'rounded', 'h-100');
             card.style.width = '18rem';
 
             // create the card body
@@ -65,8 +75,27 @@ class TaskList {
             // append the card body into the card
             card.append(cardBody);
 
-            // append the card into the main <div>
-            mainDiv.append(card);
+            // append the card into the outer div
+            outerDiv.append(card);
+
+            // if this is the beginning of the line, create the flex div + append to it + increment
+            if (counter === 1) {
+                flexDiv = document.createElement('div');
+                flexDiv.classList.add('d-flex');
+                flexDiv.append(outerDiv);
+                counter = counter + 1;
+            }
+            // if this is the end of the line, append + reset counter
+            else if (counter === LINE_LIMIT) {
+                flexDiv.append(outerDiv);
+                mainDiv.append(flexDiv);
+                counter = 1;
+            }
+            // otherwise, just append it to the flex div normally + increment
+            else {
+                flexDiv.append(outerDiv);
+                counter = counter + 1;
+            }
         });
     }
 }
