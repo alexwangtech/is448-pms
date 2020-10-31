@@ -3,4 +3,5 @@
 
 <nav class="navbar navbar-light bg-light">
     <?php include 'components/sidebar-button.php';?>
+    <button type="button" class="btn btn-outline-secondary">Log Out</button>
 </nav>
