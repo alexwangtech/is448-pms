@@ -15,7 +15,7 @@
         <?php include 'components/navbar.php';?>
         <h1>Tasks Page</h1>
 
-        <div id="taskList" class="d-flex flex-column"></div>
+        <div id="taskList"></div>
         <script src="js/tasklist.js"></script>
     </div>
 </body>
