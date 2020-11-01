@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <!-- Include Dependencies -->
     <?php include 'includes/bootstrap-scripts.php'?>
     <link rel="stylesheet" href="styles/styles.css">
-
+    <meta charset="UTF-8">
     <title>Tasks</title>
 </head>
 

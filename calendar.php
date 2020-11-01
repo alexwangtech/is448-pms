@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-
-    <!-- Include Bootstrap Dependencies -->
     <?php include 'includes/bootstrap-scripts.php'?>
-
     <link rel="stylesheet" href="styles/styles.css">
-
+    <meta charset="UTF-8">
     <title>Calendar</title>
-
 </head>
 
 <body>
