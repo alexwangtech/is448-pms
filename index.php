@@ -11,7 +11,7 @@
 <body>
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="shadow p-3 mb-5 bg-white rounded">
-            <h3 class="text-center">Log In</h3>
+            <h3 class="text-center">Portal</h3>
             <form>
                 <div class="form-group">
                     <label for="email">Email Address</label>
@@ -23,7 +23,7 @@
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password"
                         required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100 text-center">Submit</button>
+                <button type="submit" class="btn btn-dark w-100 text-center">Login</button>
             </form>
         </div>
     </div>
