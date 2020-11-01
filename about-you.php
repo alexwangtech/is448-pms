@@ -20,25 +20,25 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>First Name</h4>
                     <input class="form-control" value="Alexander" disabled>
                 </div>
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Last Name</h4>
                     <input class="form-control" value="Wang" disabled>
                 </div>
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Department Name</h4>
                     <input class="form-control" value="Software Development" disabled>
                 </div>
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Email</h4>
                     <input type="email" class="form-control" value="alex915979wang@gmail.com" disabled>
                 </div>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Password</h4>
                     <input type="password" class="form-control" value="password" disabled>
                 </div>
