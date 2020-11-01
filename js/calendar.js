@@ -22,9 +22,11 @@ class Calendar {
 
         // create the buttons + event listeners
         this.prevButton = document.createElement('button');
-        this.prevButton.innerHTML = 'Previous';
+        this.prevButton.classList.add('btn', 'btn-outline-secondary');
+        this.prevButton.innerHTML = '&lt;';
         this.nextButton = document.createElement('button');
-        this.nextButton.innerHTML = 'Next';
+        this.nextButton.classList.add('btn', 'btn-outline-secondary');
+        this.nextButton.innerHTML = '&gt;';
         this.buttonDiv.appendChild(this.prevButton);
         this.buttonDiv.appendChild(this.nextButton);
 
