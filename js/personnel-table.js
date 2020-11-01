@@ -1,8 +1,14 @@
 class PersonnelTable {
 
-    constructor(tbodyId) {
+    constructor(tbodyId, firstNameFieldId, lastNameFieldId, departmentFieldId, emailFieldId, searchButtonId) {
         this.tbodyId = tbodyId;
+        this.firstNameFieldId = firstNameFieldId;
+        this.lastNameFieldId = lastNameFieldId;
+        this.departmentFieldId = departmentFieldId;
+        this.emailFieldId = emailFieldId;
+        this.searchButtonId = searchButtonId;
         this.data = this.getData();
+        this.renderData = this.data;
 
         this.render();
     }
@@ -71,14 +77,49 @@ class PersonnelTable {
             }
         ];
 
+        // add an event listener to the search button
+        document.getElementById(this.searchButtonId).addEventListener('click', this.search.bind(this));
+
         return testData;
+    }
+
+    search() {
+        // get the values from the text fields
+        const firstName = document.getElementById(this.firstNameFieldId).value;
+        const lastName = document.getElementById(this.lastNameFieldId).value;
+        const department = document.getElementById(this.departmentFieldId).value;
+        const email = document.getElementById(this.emailFieldId).value;
+
+        // reset the values for 'this.renderData'
+        this.renderData = [];
+
+        // search for values in 'this.data' that have the substring values (case-insensitive)
+        this.data.forEach((item) => {
+            const firstNameIndex = item['firstName'].toLowerCase().indexOf(firstName.toLowerCase());
+            const lastNameIndex = item['lastName'].toLowerCase().indexOf(lastName.toLowerCase());
+            const departmentIndex = item['department'].toLowerCase().indexOf(department.toLowerCase());
+            const emailIndex = item['email'].toLowerCase().indexOf(email.toLowerCase());
+
+            if (firstNameIndex !== -1 &&
+                lastNameIndex !== -1 &&
+                departmentIndex !== -1 &&
+                emailIndex !== -1) {
+                this.renderData.push(item);
+            }
+        });
+
+        // re-render the table
+        this.render();
     }
 
     render() {
         // get the table body element
         let tableBody = document.getElementById(this.tbodyId);
 
-        this.data.forEach((item) => {
+        // clear everything first in case items already exist
+        tableBody.innerHTML = '';
+
+        this.renderData.forEach((item) => {
             // create a table row
             let tableRow = document.createElement('tr');
 
@@ -97,7 +138,7 @@ class PersonnelTable {
                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                 </svg>`;
-            
+
             // append the delete icon to a td element + append to table row
             let tableData = document.createElement('td');
             tableData.append(deleteIcon);
@@ -109,4 +150,13 @@ class PersonnelTable {
     }
 }
 
-var personnelTable = new PersonnelTable('personnelTableBody');
+const personnelIds = [
+    'personnelTableBody',
+    'firstNameField',
+    'lastNameField',
+    'departmentField',
+    'emailField',
+    'searchButton'
+];
+
+var personnelTable = new PersonnelTable(...personnelIds);
