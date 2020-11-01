@@ -112,6 +112,30 @@ class PersonnelTable {
         this.render();
     }
 
+    add(firstName, lastName, department, email) {
+        // DEBUG
+        console.log(firstName);
+        console.log(lastName);
+        console.log(department);
+        console.log(email);
+
+        // in the future, this should make an ajax request or something !!!
+
+        // create a new personnel
+        const newPersonnel = {
+            firstName: firstName,
+            lastName: lastName,
+            department: department,
+            email: email
+        };
+
+        // add the new personnel to 'this.data'
+        this.data.push(newPersonnel);
+
+        // in case there are search parameters, call the search method
+        this.search();
+    }
+
     delete(item) {
         // remove the item from the list of data (this.data)
         const index = this.data.indexOf(item);
@@ -161,14 +185,3 @@ class PersonnelTable {
         });
     }
 }
-
-const personnelIds = [
-    'personnelTableBody',
-    'firstNameField',
-    'lastNameField',
-    'departmentField',
-    'emailField',
-    'searchButton'
-];
-
-var personnelTable = new PersonnelTable(...personnelIds);
