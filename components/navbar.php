@@ -2,6 +2,6 @@
 <!-- To use this, include it in your #mainContent div -->
 
 <nav class="navbar navbar-light bg-light">
-    <?php include 'components/sidebar-button.php';?>
+    <button class="openbtn" onclick="toggleNav()">&#9776;</button>
     <button type="button" class="btn btn-outline-secondary">Log Out</button>
 </nav>
