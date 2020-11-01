@@ -12,7 +12,7 @@
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="shadow p-3 mb-5 bg-white rounded">
             <h3 class="text-center">Portal</h3>
-            <form>
+            <form action="calendar.php">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
