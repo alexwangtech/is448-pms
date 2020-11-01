@@ -8,7 +8,7 @@
     <a href="calendar.php">Calendar</a>
     <a href="tasks.php">My Tasks</a>
     <a href="personnel.php">Personnel</a>
-    <a href="#">Placeholder</a>
+    <a href="about-you.php">About You</a>
 </div>
 
 <script>
