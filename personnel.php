@@ -12,7 +12,7 @@
     <?php include 'components/sidebar.php';?>
     <div id="mainContent">
         <?php include 'components/navbar.php';?>
-        <div class="container-fluid">
+        <div class="container-fluid p-0">
             <div class="row">
                 <div class="col">
                     <h1 class="mb-4">Personnel Table</h1>
