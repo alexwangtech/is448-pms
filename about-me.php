@@ -16,7 +16,7 @@
         <div class="container-fluid p-0">
             <div class="row">
                 <div class="col">
-                    <h1 class="mb-4 display-4">About You</h1>
+                    <h1 class="mb-4 display-4">About Me</h1>
                     <hr>
                 </div>
             </div>
