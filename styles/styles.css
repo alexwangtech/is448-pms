@@ -79,5 +79,12 @@ style of the sidenav (less padding + smaller font size) */
 
 #calendar th {
     font-size: 30px;
+}
 
+#calendar td {
+    transition-duration: 0.1s;
+}
+
+#calendar td:hover {
+    background-color: #B8B8B8;
 }
