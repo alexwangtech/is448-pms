@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-1 d-flex justify-content-center align-items-center">
                     <button type="button" class="btn btn-outline-success" data-toggle="modal"
-                        data-target="#newPersonnelModal">
+                        data-target="#newPersonnelModal" onclick="setModeCreate()">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -123,11 +123,11 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
-                        onclick="clearFields()">Cancel</button>
+                <div class="modal-footer" id="modalFooter">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" onclick="clearFields()"
+                        id="cancelButton">Cancel</button>
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
-                        onclick="createPersonnel()">Create</button>
+                        onclick="createPersonnel()" id="createButton">Create</button>
                 </div>
             </div>
         </div>
@@ -153,10 +153,26 @@
         'modalEmail'
     ];
 
+    const cancelButton = document.getElementById('cancelButton');
+    const createButton = document.getElementById('createButton');
+    const modalFooter = document.getElementById('modalFooter');
+
     function clearFields() {
         modalInputIds.forEach((item) => {
             document.getElementById(item).value = '';
         });
+    }
+
+    function setModeCreate() {
+        // this needs to be done because the personnel-table javascript might modify the modal
+
+        // clear the text fields
+        clearFields();
+
+        // put the cancel and save buttons in place
+        modalFooter.innerHTML = '';
+        modalFooter.append(cancelButton);
+        modalFooter.append(createButton);
     }
 
     function createPersonnel() {

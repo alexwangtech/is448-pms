@@ -113,12 +113,6 @@ class PersonnelTable {
     }
 
     add(firstName, lastName, department, email) {
-        // DEBUG
-        console.log(firstName);
-        console.log(lastName);
-        console.log(department);
-        console.log(email);
-
         // in the future, this should make an ajax request or something !!!
 
         // create a new personnel
@@ -134,6 +128,60 @@ class PersonnelTable {
 
         // in case there are search parameters, call the search method
         this.search();
+    }
+
+    edit(item) { // refactor this code in the future
+        // get the original modal buttons (to store a referencd to)
+        const cancelButton = document.getElementById('cancelButton');
+        const createButton = document.getElementById('createButton'); // probably don't need this
+
+        // get the modal footer <div> id
+        const modalFooter = document.getElementById('modalFooter');
+
+        // create a new "save" button
+        const saveButton = document.createElement('button');
+        saveButton.innerHTML = 'Save';
+        saveButton.classList.add('btn', 'btn-outline-primary');
+        saveButton.setAttribute('data-dismiss', 'modal');
+
+        // clear the modal footer and append the cancel and save buttons
+        modalFooter.innerHTML = '';
+        modalFooter.append(cancelButton);
+        modalFooter.append(saveButton);
+
+        // set the initial values of the text fields
+        document.getElementById('modalFirstName').value = item['firstName'];
+        document.getElementById('modalLastName').value = item['lastName'];
+        document.getElementById('modalDepartment').value = item['department'];
+        document.getElementById('modalEmail').value = item['email'];
+
+        // add an event listener for the saveButton
+        saveButton.addEventListener('click', function () {
+
+            // get the new values of the text fields (refactor this eventually)
+            const firstName = document.getElementById('modalFirstName').value;
+            const lastName = document.getElementById('modalLastName').value;
+            const department = document.getElementById('modalDepartment').value;
+            const email = document.getElementById('modalEmail').value;
+
+            // get the index of the current item
+            const index = this.data.indexOf(item);
+
+            // create a new personnel
+            const newPersonnel = {
+                firstName: firstName,
+                lastName: lastName,
+                department: department,
+                email: email
+            };
+
+            // replace the item at that specified index
+            this.data[index] = newPersonnel;
+
+            // recall the search method
+            this.search();
+
+        }.bind(this));
     }
 
     delete(item) {
@@ -163,6 +211,14 @@ class PersonnelTable {
                 tableRow.append(tableData);
             }
 
+            // create an edit button
+            let editButton = document.createElement('button');
+            editButton.classList.add('btn', 'btn-outline-warning', 'mr-1');
+            editButton.innerHTML = `
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                </svg>`;
+
             // create a delete button
             let deleteButton = document.createElement('button');
             deleteButton.classList.add('btn', 'btn-outline-danger');
@@ -172,13 +228,19 @@ class PersonnelTable {
                     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                 </svg>`;
 
+            // add an event listener to the edit button
+            editButton.addEventListener('click', function () { this.edit(item) }.bind(this));
+            editButton.setAttribute('data-toggle', 'modal');
+            editButton.setAttribute('data-target', '#newPersonnelModal');
+
             // add an event listener to the delete button
             deleteButton.addEventListener('click', function () { this.delete(item) }.bind(this));
 
-            // append the delete icon to a td element + append to table row
-            let tableData = document.createElement('td');
-            tableData.append(deleteButton);
-            tableRow.append(tableData);
+            // append the buttons to a td element + append to table row
+            let buttonsTableData = document.createElement('td');
+            buttonsTableData.append(editButton);
+            buttonsTableData.append(deleteButton);
+            tableRow.append(buttonsTableData);
 
             // append the table row to the table body
             tableBody.append(tableRow);
