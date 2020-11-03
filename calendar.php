@@ -4,6 +4,7 @@
 <head>
     <?php include 'includes/bootstrap-scripts.php'?>
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="icon" href="favicon.ico">
     <meta charset="UTF-8">
     <title>Calendar</title>
 </head>
