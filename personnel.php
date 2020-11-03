@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <?php include 'includes/bootstrap-scripts.php';?>
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="icon" href="favicon.ico">
-    <meta charset="UTF-8">
     <title>Personnel</title>
 </head>
 
@@ -103,7 +103,7 @@
                                     class="form-control" required>
                             </div>
                             <div class="form-group col-6">
-                                <label for="lastName">Last Name</label>
+                                <label for="modallastName">Last Name</label>
                                 <input type="text" id="modalLastName" name="modalLastName" placeholder="Last Name"
                                     class="form-control" required>
                             </div>
