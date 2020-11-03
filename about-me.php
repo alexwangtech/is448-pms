@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="icon" href="favicon.ico">
     <meta charset="UTF-8">
-    <title>About You</title>
+    <title>About Me</title>
 </head>
 
 <body>
