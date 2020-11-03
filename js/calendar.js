@@ -52,6 +52,9 @@ class Calendar {
             this.renderCalendar();
         });
 
+        // get the task data
+        this.taskData = this.getData();
+
         // create the top div using flexbox properties for alignment
         let topDiv = document.createElement('div');
         topDiv.classList.add('d-flex', 'justify-content-center');
@@ -67,6 +70,133 @@ class Calendar {
         mainDiv.append(this.buttonDiv);
 
         this.renderCalendar();
+    }
+
+    getData() {
+        const testData = [
+            {
+                taskName: "Write a report",
+                taskDueDate: "2020-10-30",
+                description: "Please write a report about cats."
+            },
+            {
+                taskName: "Cook some pasta",
+                taskDueDate: "2020-10-29",
+                description: "Our manager is hungry, please cook some pasta for him!"
+            },
+            {
+                taskName: "Buy a gaming laptop",
+                taskDueDate: "2020-11-05",
+                description: "We want to be able to play Mario Kart!"
+            },
+            {
+                taskName: "Download VSCode",
+                taskDueDate: "2020-09-26",
+                description: "You need an IDE to program faster, idiot!"
+            },
+            {
+                taskName: "Purchase Office 360",
+                taskDueDate: "2020-10-31",
+                description: "We need to be able to use Microsoft Office stuff."
+            },
+            {
+                taskName: "Restock on paper",
+                taskDueDate: "2020-11-20",
+                description: "We need more paper. Lol."
+            },
+            {
+                taskName: "Rent an office",
+                taskDueDate: "2019-01-01",
+                description: "We really need an office place or something."
+            }
+        ];
+
+        return testData;
+    }
+
+    displayTasks(day) {
+        // get all the tasks associated with this current date
+        let todayTasks = [];
+
+        this.taskData.forEach((item) => {
+            // get the month, year, and date
+            const itemYear = parseInt(item['taskDueDate'].substring(0, 4));
+            const itemMonth = parseInt(item['taskDueDate'].substring(5, 7));
+            const itemDate = parseInt(item['taskDueDate'].substring(8, 10));
+
+            // compare the values to the current provided values
+            if (itemYear === this.currYear &&
+                itemMonth === this.currMonth &&
+                itemDate === day) {
+                todayTasks.push(item);
+            }
+
+            console.log(itemYear, this.currYear);
+            console.log(itemMonth, this.currMonth);
+            console.log(itemDate, day);
+        });
+
+        // DEBUG
+        console.dir(todayTasks);
+
+        // get the div for displaying tasks (refactor this later as an object argument)
+        let tasksDiv = document.getElementById('tasksDiv');
+
+        // clear the tasks div
+        tasksDiv.innerHTML = '';
+
+        // for each item in the 'todayTasks' array, we want to display the tasks
+        // --------------
+        todayTasks.forEach((item) => {
+            // create the outer div (for margins/spacing)
+            let outerDiv = document.createElement('div');
+            outerDiv.classList.add('m-3');
+
+            // create the card outline and add class + style
+            let card = document.createElement('div');
+            card.classList.add('card', 'shadow', 'p-3', 'mb-5', 'bg-white', 'rounded', 'h-100');
+            card.style.width = '18rem';
+
+            // create the card body
+            let cardBody = document.createElement('div');
+            cardBody.classList.add('card-body');
+
+            // create the card title
+            let cardTitle = document.createElement('h5');
+            cardTitle.classList.add('card-title');
+            cardTitle.innerHTML = item['taskName'];
+
+            // create the card subtitle
+            let cardSubtitle = document.createElement('h6');
+            cardSubtitle.classList.add('card-subtitle', 'mb-2', 'text-muted');
+            cardSubtitle.innerHTML = item['taskDueDate'];
+
+            // create the card description
+            let cardDescription = document.createElement('p');
+            cardDescription.classList.add('card-text');
+            cardDescription.innerHTML = item['description'];
+
+            // append all of the card body items into the card body
+            cardBody.append(cardTitle);
+            cardBody.append(cardSubtitle);
+            cardBody.append(cardDescription);
+
+            // append the card body into the card
+            card.append(cardBody);
+
+            // append the card into the outer div
+            outerDiv.append(card);
+
+            // append the outer div into the tasks div
+            tasksDiv.append(outerDiv);
+        });
+
+        // if the tasks div still has nothing, append "no tasks"
+        if (tasksDiv.innerHTML === '') {
+            let noTasks = document.createElement('h3');
+            noTasks.innerHTML = 'No Tasks';
+            tasksDiv.append(noTasks);
+        }
     }
 
     renderCalendar() {
@@ -131,6 +261,11 @@ class Calendar {
                         currTd.innerHTML = count;
                     ++count;
                 }
+
+                // add an event listener to the table data
+                currTd.addEventListener('click', function () {
+                    this.displayTasks(parseInt(currTd.innerHTML));
+                }.bind(this));
 
                 currRow.appendChild(currTd);
             }
