@@ -103,7 +103,7 @@
                                     class="form-control" required>
                             </div>
                             <div class="form-group col-6">
-                                <label for="modallastName">Last Name</label>
+                                <label for="modalLastName">Last Name</label>
                                 <input type="text" id="modalLastName" name="modalLastName" placeholder="Last Name"
                                     class="form-control" required>
                             </div>
