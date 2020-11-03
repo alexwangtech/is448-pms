@@ -131,9 +131,13 @@ class PersonnelTable {
     }
 
     edit(item) { // refactor this code in the future
-        // get the original modal buttons (to store a referencd to)
+        // get the original modal buttons (to store a referenc to)
         const cancelButton = document.getElementById('cancelButton');
         const createButton = document.getElementById('createButton'); // probably don't need this
+
+        // change the title of the modal to "Edit Personnel"
+        const modalTitle = document.getElementById('modalTitle');
+        modalTitle.innerHTML = 'Edit Personnel';
 
         // get the modal footer <div> id
         const modalFooter = document.getElementById('modalFooter');

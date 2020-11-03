@@ -87,7 +87,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">New Personnel</h5>
+                    <h5 class="modal-title" id="modalTitle">New Personnel</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -168,6 +168,10 @@
 
         // clear the text fields
         clearFields();
+
+        // change the title of the modal to "New Personnel"
+        const modalTitle = document.getElementById('modalTitle');
+        modalTitle.innerHTML = 'New Personnel';
 
         // put the cancel and save buttons in place
         modalFooter.innerHTML = '';
