@@ -1,3 +1,24 @@
+<?php
+
+session_start();
+
+// if the SESSION 'userType' key doesn't exist, redirect to login page
+if (!isset($_SESSION['userType'])) {
+    header('Location: index.php');
+    exit();
+}
+else {
+    // if 'userType' is NOT 'Owner' or 'Manager', redirect to calendar page
+    if ($_SESSION['userType'] != 'Owner' && $_SESSION['userType'] != 'Manager') {
+        header('Location: calendar.php');
+        exit();
+    }
+
+    // otherwise, this page can continue rendering
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,7 +94,7 @@
                                 <th scope="col">Last Name</th>
                                 <th scope="col">Department</th>
                                 <th scope="col">Email</th>
-                                <th></th> <!-- Blank <th> to make space for delete and edit buttons -->
+                                <th scope="col"></th> <!-- Blank <th> to make space for delete and edit buttons -->
                             </tr>
                         </thead>
                         <tbody id="personnelTableBody"></tbody>

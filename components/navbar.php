@@ -3,5 +3,5 @@
 
 <nav class="navbar navbar-light bg-light sticky-top">
     <button class="openbtn" onclick="toggleNav()">&#9776;</button>
-    <button type="button" class="btn btn-dark" onclick="location.href='index.php'">Log out</button>
+    <a href="actions/logout.php" class="btn btn-dark">Log out</a>
 </nav>

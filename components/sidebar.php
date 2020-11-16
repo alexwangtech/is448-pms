@@ -7,7 +7,12 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="calendar.php">Calendar</a>
     <a href="tasks.php">My Tasks</a>
-    <a href="personnel.php">Personnel</a>
+    <?php
+    // this link should only render if the 'userType' is 'Owner' or 'Manager'
+    if ($_SESSION['userType'] == 'Owner' || $_SESSION['userType'] == 'Manager') {
+        echo '<a href="personnel.php">Personnel</a>';
+    }
+    ?>
     <a href="about-me.php">About Me</a>
 </div>
 

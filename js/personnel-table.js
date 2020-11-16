@@ -131,7 +131,7 @@ class PersonnelTable {
     }
 
     edit(item) { // refactor this code in the future
-        // get the original modal buttons (to store a referenc to)
+        // get the original modal buttons (to store a reference to)
         const cancelButton = document.getElementById('cancelButton');
         const createButton = document.getElementById('createButton'); // probably don't need this
 

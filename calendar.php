@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+// if the session 'userId' is not set, redirect back to the login page
+if (!isset($_SESSION['userId'])) {
+    header('Location: index.php');
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
