@@ -25,11 +25,25 @@ if (!isset($_SESSION['userId'])) {
     <?php include 'components/sidebar.php';?>
     <div id="mainContent">
         <?php include 'components/navbar.php';?>
-        <div class="d-flex">
-            <?php include 'components/calendar-component.php';?>
-            <div id="tasksDiv" class="w-50 d-flex flex-column align-items-center"></div>
+        <div class="container-fluid m-0 p-0">
+            <div class="row">
+                <div class="col">
+                    <div id="calendar"></div>
+                </div>
+                <div class="col">
+                    <div id="tasksDiv"></div>
+                </div>
+            </div>
         </div>
     </div>
+    <script src="js/calendar.js"></script>
+    <script>
+    // use our PHP $_SESSION to set a userId value
+    const userId = <?php echo $_SESSION['userId'];?>
+
+    // create an instance of our Calendar component
+    var calendar = new Calendar('calendar', userId);
+    </script>
 </body>
 
 </html>

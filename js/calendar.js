@@ -3,8 +3,9 @@ class Calendar {
     MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
         'August', 'September', 'October', 'November', 'December'];
 
-    constructor(mainDiv) {
+    constructor(mainDiv, userId) {
         this.mainDiv = mainDiv;
+        this.userId = userId;
 
         // Create the main layout elements
         mainDiv = document.getElementById(mainDiv);
@@ -52,8 +53,9 @@ class Calendar {
             this.renderCalendar();
         });
 
-        // get the task data
-        this.taskData = this.getData();
+        // blank array at initialization -> use async function to update data
+        this.taskData = [];
+        this.getData();
 
         // create the top div using flexbox properties for alignment
         let topDiv = document.createElement('div');
@@ -73,45 +75,11 @@ class Calendar {
     }
 
     getData() {
-        const testData = [
-            {
-                taskName: "Write a report",
-                taskDueDate: "2020-10-30",
-                description: "Please write a report about cats."
-            },
-            {
-                taskName: "Cook some pasta",
-                taskDueDate: "2020-10-29",
-                description: "Our manager is hungry, please cook some pasta for him!"
-            },
-            {
-                taskName: "Buy a gaming laptop",
-                taskDueDate: "2020-11-05",
-                description: "We want to be able to play Mario Kart!"
-            },
-            {
-                taskName: "Download VSCode",
-                taskDueDate: "2020-09-26",
-                description: "You need an IDE to program faster, idiot!"
-            },
-            {
-                taskName: "Purchase Office 360",
-                taskDueDate: "2020-10-31",
-                description: "We need to be able to use Microsoft Office stuff."
-            },
-            {
-                taskName: "Restock on paper",
-                taskDueDate: "2020-11-20",
-                description: "We need more paper. Lol."
-            },
-            {
-                taskName: "Rent an office",
-                taskDueDate: "2019-01-01",
-                description: "We really need an office place or something."
-            }
-        ];
-
-        return testData;
+        // use an ajax GET request
+        $.get('actions/get-all-tasks.php', {userId: this.userId}, function(res) {
+            // set the data
+            this.taskData = JSON.parse(res);
+        }.bind(this));
     }
 
     displayTasks(day) {
@@ -136,9 +104,6 @@ class Calendar {
             console.log(itemDate, day);
         });
 
-        // DEBUG
-        console.dir(todayTasks);
-
         // get the div for displaying tasks (refactor this later as an object argument)
         let tasksDiv = document.getElementById('tasksDiv');
 
@@ -148,18 +113,10 @@ class Calendar {
         // for each item in the 'todayTasks' array, we want to display the tasks
         // --------------
         todayTasks.forEach((item) => {
-            // create the outer div (for margins/spacing)
-            let outerDiv = document.createElement('div');
-            outerDiv.classList.add('m-3');
 
-            // create the card outline and add class + style
-            let card = document.createElement('div');
-            card.classList.add('card', 'shadow', 'p-3', 'mb-5', 'bg-white', 'rounded', 'h-100');
-            card.style.width = '18rem';
-
-            // create the card body
-            let cardBody = document.createElement('div');
-            cardBody.classList.add('card-body');
+            // create a "container" div to hold everything
+            let containerDiv = document.createElement('div');
+            containerDiv.classList.add('shadow', 'p-3', 'mb-2', 'mt-2', 'bg-white', 'rounded');
 
             // create the card title
             let cardTitle = document.createElement('h5');
@@ -176,19 +133,13 @@ class Calendar {
             cardDescription.classList.add('card-text');
             cardDescription.innerHTML = item['description'];
 
-            // append all of the card body items into the card body
-            cardBody.append(cardTitle);
-            cardBody.append(cardSubtitle);
-            cardBody.append(cardDescription);
+            // append everything to the "container" div
+            containerDiv.append(cardTitle);
+            containerDiv.append(cardSubtitle);
+            containerDiv.append(cardDescription);
 
-            // append the card body into the card
-            card.append(cardBody);
-
-            // append the card into the outer div
-            outerDiv.append(card);
-
-            // append the outer div into the tasks div
-            tasksDiv.append(outerDiv);
+            // append the "container" div into the tasks div
+            tasksDiv.append(containerDiv);
         });
 
         // if the tasks div still has nothing, append "no tasks"
@@ -291,5 +242,3 @@ class Calendar {
         return new Date(year, monthIndex, 1).getDay();
     }
 }
-
-var calendar = new Calendar('calendar');

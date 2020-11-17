@@ -222,9 +222,9 @@ else {
                     </form>
                 </div>
                 <div class="modal-footer" id="modalFooter">
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" onclick=""
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
                         id="cancelEditButton">Cancel</button>
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal" onclick=""
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
                         id="saveEditButton">Save</button>
                 </div>
             </div>

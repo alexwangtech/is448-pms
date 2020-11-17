@@ -66,8 +66,6 @@ class PersonnelTable {
     }
 
     add(firstName, lastName, department, userType, email, password) {
-        // TODO: add new personnel into sql tables and stuff
-
         // construct a new JSON object
         const jsonObj = {
             firstName: firstName,
