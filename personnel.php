@@ -41,7 +41,7 @@ else {
                 </div>
                 <div class="col-1 d-flex justify-content-center align-items-center">
                     <button type="button" class="btn btn-outline-success" data-toggle="modal"
-                        data-target="#newPersonnelModal" onclick="setModeCreate()">
+                        data-target="#newPersonnelModal">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -58,6 +58,10 @@ else {
                             <div class="row">
                                 <div class="col-11">
                                     <div class="form-row">
+                                        <div class="form-group col-1">
+                                            <input id="idField" type="text" name="id" placeholder="ID"
+                                                class="form-control">
+                                        </div>
                                         <div class="form-group col">
                                             <input id="firstNameField" type="text" name="firstName"
                                                 placeholder="First Name" class="form-control">
@@ -69,6 +73,10 @@ else {
                                         <div class="form-group col">
                                             <input id="departmentField" type="text" name="departmentName"
                                                 placeholder="Department Name" class="form-control">
+                                        </div>
+                                        <div class="form-group col">
+                                            <input id="userTypeField" type="text" name="userType"
+                                                placeholder="User Type" class="form-control">
                                         </div>
                                         <div class="form-group col">
                                             <input id="emailField" type="text" name="email" placeholder="Email"
@@ -90,9 +98,11 @@ else {
                     <table class="table">
                         <thead>
                             <tr>
+                                <th scope="col">ID</th>
                                 <th scope="col">First Name</th>
                                 <th scope="col">Last Name</th>
                                 <th scope="col">Department</th>
+                                <th scope="col">User Type</th>
                                 <th scope="col">Email</th>
                                 <th scope="col"></th> <!-- Blank <th> to make space for delete and edit buttons -->
                             </tr>
@@ -104,7 +114,7 @@ else {
         </div>
     </div>
 
-    <!-- The modal for creating a new personnel -->
+    <!-- Create Personnel Modal -->
     <div id="newPersonnelModal" class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -119,37 +129,103 @@ else {
                     <form>
                         <div class="form-row">
                             <div class="form-group col-6">
-                                <label for="modalFirstName">First Name</label>
-                                <input type="text" id="modalFirstName" name="modalFirstName" placeholder="First Name"
+                                <label for="createFirstName">First Name</label>
+                                <input type="text" id="createFirstName" name="createFirstName" placeholder="First Name"
                                     class="form-control" required>
                             </div>
                             <div class="form-group col-6">
-                                <label for="modalLastName">Last Name</label>
-                                <input type="text" id="modalLastName" name="modalLastName" placeholder="Last Name"
+                                <label for="createLastName">Last Name</label>
+                                <input type="text" id="createLastName" name="createLastName" placeholder="Last Name"
                                     class="form-control" required>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col">
-                                <label for="modalDepartment">Department</label>
-                                <input type="text" id="modalDepartment" name="modalDepartment" placeholder="Department"
+                            <div class="form-group col-6">
+                                <label for="createDepartment">Department</label>
+                                <input type="text" id="createDepartment" name="createDepartment"
+                                    placeholder="Department" class="form-control" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="createUserType">User Type</label>
+                                <input type="text" id="createUserType" name="createUserType" placeholder="User Type"
                                     class="form-control" required>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col">
-                                <label for="modalEmail">Email</label>
-                                <input type="text" id="modalEmail" name="modalEmail" placeholder="Email"
+                            <div class="form-group col-6">
+                                <label for="createEmail">Email</label>
+                                <input type="text" id="createEmail" name="createEmail" placeholder="Email"
+                                    class="form-control" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="createPassword">Password</label>
+                                <input type="text" id="createPassword" name="createPassword" placeholder="Password"
                                     class="form-control" required>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer" id="modalFooter">
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" onclick="clearFields()"
-                        id="cancelButton">Cancel</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
+                        onclick="clearCreateFields()" id="cancelButton">Cancel</button>
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
                         onclick="createPersonnel()" id="createButton">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Personnel Modal -->
+    <div id="editPersonnelModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Edit Personnel</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Your content goes here -->
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="editFirstName">First Name</label>
+                                <input type="text" id="editFirstName" name="editFirstName" placeholder="First Name"
+                                    class="form-control" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="editLastName">Last Name</label>
+                                <input type="text" id="editLastName" name="editLastName" placeholder="Last Name"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="editDepartment">Department</label>
+                                <input type="text" id="editDepartment" name="editDepartment" placeholder="Department"
+                                    class="form-control" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="editUserType">User Type</label>
+                                <input type="text" id="editUserType" name="editUserType" placeholder="User Type"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="editEmail">Email</label>
+                                <input type="text" id="editEmail" name="editEmail" placeholder="Email"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" id="modalFooter">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" onclick=""
+                        id="cancelEditButton">Cancel</button>
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal" onclick=""
+                        id="saveEditButton">Save</button>
                 </div>
             </div>
         </div>
@@ -159,57 +235,56 @@ else {
     <script>
     const personnelIds = [
         'personnelTableBody',
+        'idField',
         'firstNameField',
         'lastNameField',
         'departmentField',
+        'userTypeField',
         'emailField',
         'searchButton'
     ];
 
     var personnelTable = new PersonnelTable(...personnelIds);
 
-    let modalInputIds = [
-        'modalFirstName',
-        'modalLastName',
-        'modalDepartment',
-        'modalEmail'
+    const createModalIds = [
+        'createFirstName',
+        'createLastName',
+        'createDepartment',
+        'createUserType',
+        'createEmail',
+        'createPassword'
+    ];
+
+    const editModalIds = [
+        'editFirstName',
+        'editLastName',
+        'editDepartment',
+        'editUserType',
+        'editEmail'
     ];
 
     const cancelButton = document.getElementById('cancelButton');
     const createButton = document.getElementById('createButton');
     const modalFooter = document.getElementById('modalFooter');
 
-    function clearFields() {
-        modalInputIds.forEach((item) => {
+    function clearCreateFields() {
+        createModalIds.forEach((item) => {
             document.getElementById(item).value = '';
         });
     }
 
-    function setModeCreate() {
-        // this needs to be done because the personnel-table javascript might modify the modal
-
-        // clear the text fields
-        clearFields();
-
-        // change the title of the modal to "New Personnel"
-        const modalTitle = document.getElementById('modalTitle');
-        modalTitle.innerHTML = 'New Personnel';
-
-        // put the cancel and save buttons in place
-        modalFooter.innerHTML = '';
-        modalFooter.append(cancelButton);
-        modalFooter.append(createButton);
-    }
-
     function createPersonnel() {
-        const modalFirstName = document.getElementById('modalFirstName').value;
-        const modalLastName = document.getElementById('modalLastName').value;
-        const modalDepartment = document.getElementById('modalDepartment').value;
-        const modalEmail = document.getElementById('modalEmail').value;
+        const createFirstName = document.getElementById('createFirstName').value;
+        const createLastName = document.getElementById('createLastName').value;
+        const createDepartment = document.getElementById('createDepartment').value;
+        const createUserType = document.getElementById('createUserType').value;
+        const createEmail = document.getElementById('createEmail').value;
+        const createPassword = document.getElementById('createPassword').value;
 
-        personnelTable.add(modalFirstName, modalLastName, modalDepartment, modalEmail);
+        personnelTable.add(createFirstName, createLastName, createDepartment, createUserType, createEmail,
+            createPassword);
 
-        clearFields();
+        clearCreateFields();
     }
     </script>
 </body>

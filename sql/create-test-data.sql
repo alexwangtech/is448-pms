@@ -13,3 +13,4 @@ INSERT INTO PMSTasks (userId, taskName, taskDueDate, `description`)
     VALUES (1, 'Task 2', '2020-11-01', 'This is Task 2!');
 INSERT INTO PMSTasks (userId, taskName, taskDueDate, `description`)
     VALUES (1, 'Task 3', '2020-11-01', 'This is Task 3!');
+    

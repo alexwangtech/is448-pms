@@ -1,93 +1,42 @@
 class PersonnelTable {
 
-    constructor(tbodyId, firstNameFieldId, lastNameFieldId, departmentFieldId, emailFieldId, searchButtonId) {
+    constructor(tbodyId, idField, firstNameFieldId, lastNameFieldId, departmentFieldId, userTypeFieldId, emailFieldId, searchButtonId) {
         this.tbodyId = tbodyId;
+        this.idField = idField;
         this.firstNameFieldId = firstNameFieldId;
         this.lastNameFieldId = lastNameFieldId;
         this.departmentFieldId = departmentFieldId;
+        this.userTypeFieldId = userTypeFieldId;
         this.emailFieldId = emailFieldId;
         this.searchButtonId = searchButtonId;
-        this.data = this.getData();
+        this.data = []; // due to async GET request, leave empty and update later
         this.renderData = this.data;
+
+        // add an event listener to the search button
+        document.getElementById(this.searchButtonId).addEventListener('click', this.search.bind(this));
+
+        // get the data (ASYNC)
+        this.getData();
 
         this.render();
     }
 
     getData() {
-        const testData = [
-            {
-                firstName: "Alexander",
-                lastName: "Wang",
-                department: "Software Development",
-                email: "alex915979wang@gmail.com"
-            },
-            {
-                firstName: "Raymond",
-                lastName: "Wang",
-                department: "Information Systems",
-                email: "wanalex1@umbc.edu"
-            },
-            {
-                firstName: "Bob",
-                lastName: "Ross",
-                department: "Painting",
-                email: "bobross@gmail.com"
-            },
-            {
-                firstName: "Chad",
-                lastName: "Whick",
-                department: "Acting",
-                email: "chadwick@gmail.com"
-            },
-            {
-                firstName: "Jayce",
-                lastName: "Leee",
-                department: "Heroes",
-                email: "jaycelee123@heroes.com"
-            },
-            {
-                firstName: "Naofumi",
-                lastName: "Tate",
-                department: "Shield Hero",
-                email: "shieldheroesrising@gmail.com"
-            },
-            {
-                firstName: "Nick",
-                lastName: "Chang",
-                department: "Supply Chain Management",
-                email: "nickchang@gmail.com"
-            },
-            {
-                firstName: "Adharsh",
-                lastName: "Babu",
-                department: "Computer Science",
-                email: "ababu@gmail.com"
-            },
-            {
-                firstName: "Warwick",
-                lastName: "Wolf",
-                department: "League of Legends",
-                email: "bloodthirsty@gmail.com"
-            },
-            {
-                firstName: "Lux",
-                lastName: "Mage",
-                department: "Demacia",
-                email: "ladyofluminosity@gmail.com"
-            }
-        ];
 
-        // add an event listener to the search button
-        document.getElementById(this.searchButtonId).addEventListener('click', this.search.bind(this));
-
-        return testData;
+        // we will make a GET request and re-render when we get the data
+        $.get('actions/get-all-personnel.php', function(res) {
+            this.data = JSON.parse(res);
+            this.search();
+        }.bind(this));
     }
 
     search() {
         // get the values from the text fields
+        const id = document.getElementById(this.idField).value;
         const firstName = document.getElementById(this.firstNameFieldId).value;
         const lastName = document.getElementById(this.lastNameFieldId).value;
         const department = document.getElementById(this.departmentFieldId).value;
+        const userType = document.getElementById(this.userTypeFieldId).value;
         const email = document.getElementById(this.emailFieldId).value;
 
         // reset the values for 'this.renderData'
@@ -95,14 +44,18 @@ class PersonnelTable {
 
         // search for values in 'this.data' that have the substring values (case-insensitive)
         this.data.forEach((item) => {
+            const idIndex = item['userId'].toLowerCase().indexOf(id.toLowerCase())
             const firstNameIndex = item['firstName'].toLowerCase().indexOf(firstName.toLowerCase());
             const lastNameIndex = item['lastName'].toLowerCase().indexOf(lastName.toLowerCase());
-            const departmentIndex = item['department'].toLowerCase().indexOf(department.toLowerCase());
+            const departmentIndex = item['departmentName'].toLowerCase().indexOf(department.toLowerCase());
+            const userTypeIndex = item['userType'].toLowerCase().indexOf(userType.toLowerCase());
             const emailIndex = item['email'].toLowerCase().indexOf(email.toLowerCase());
 
-            if (firstNameIndex !== -1 &&
+            if (idIndex !== -1 &&
+                firstNameIndex !== -1 &&
                 lastNameIndex !== -1 &&
                 departmentIndex !== -1 &&
+                userTypeIndex !== -1 &&
                 emailIndex !== -1) {
                 this.renderData.push(item);
             }
@@ -112,89 +65,85 @@ class PersonnelTable {
         this.render();
     }
 
-    add(firstName, lastName, department, email) {
-        // in the future, this should make an ajax request or something !!!
+    add(firstName, lastName, department, userType, email, password) {
+        // TODO: add new personnel into sql tables and stuff
 
-        // create a new personnel
-        const newPersonnel = {
+        // construct a new JSON object
+        const jsonObj = {
             firstName: firstName,
             lastName: lastName,
             department: department,
-            email: email
+            userType: userType,
+            email: email,
+            password: password
         };
 
-        // add the new personnel to 'this.data'
-        this.data.push(newPersonnel);
+        // send this object to the "server" with a POST request
+        $.post('actions/add-new-personnel.php', jsonObj, function (res) {
+            // get all data again (that method will re-render)
+            this.getData();
+        }.bind(this));
 
         // in case there are search parameters, call the search method
         this.search();
     }
 
     edit(item) { // refactor this code in the future
-        // get the original modal buttons (to store a reference to)
-        const cancelButton = document.getElementById('cancelButton');
-        const createButton = document.getElementById('createButton'); // probably don't need this
 
-        // change the title of the modal to "Edit Personnel"
-        const modalTitle = document.getElementById('modalTitle');
-        modalTitle.innerHTML = 'Edit Personnel';
-
-        // get the modal footer <div> id
-        const modalFooter = document.getElementById('modalFooter');
-
-        // create a new "save" button
-        const saveButton = document.createElement('button');
-        saveButton.innerHTML = 'Save';
-        saveButton.classList.add('btn', 'btn-outline-primary');
-        saveButton.setAttribute('data-dismiss', 'modal');
-
-        // clear the modal footer and append the cancel and save buttons
-        modalFooter.innerHTML = '';
-        modalFooter.append(cancelButton);
-        modalFooter.append(saveButton);
-
-        // set the initial values of the text fields
-        document.getElementById('modalFirstName').value = item['firstName'];
-        document.getElementById('modalLastName').value = item['lastName'];
-        document.getElementById('modalDepartment').value = item['department'];
-        document.getElementById('modalEmail').value = item['email'];
+        // set the modal edit fields
+        document.getElementById('editFirstName').value = item['firstName'];
+        document.getElementById('editLastName').value = item['lastName'];
+        document.getElementById('editDepartment').value = item['departmentName'];
+        document.getElementById('editUserType').value = item['userType'];
+        document.getElementById('editEmail').value = item['email'];
 
         // add an event listener for the saveButton
-        saveButton.addEventListener('click', function () {
+        document.getElementById('saveEditButton').addEventListener('click', function () {
 
             // get the new values of the text fields (refactor this eventually)
-            const firstName = document.getElementById('modalFirstName').value;
-            const lastName = document.getElementById('modalLastName').value;
-            const department = document.getElementById('modalDepartment').value;
-            const email = document.getElementById('modalEmail').value;
+            const firstName = document.getElementById('editFirstName').value;
+            const lastName = document.getElementById('editLastName').value;
+            const department = document.getElementById('editDepartment').value;
+            const userType = document.getElementById('editUserType').value;
+            const email = document.getElementById('editEmail').value;
 
-            // get the index of the current item
-            const index = this.data.indexOf(item);
+            // get the userId of the current item
+            const userId = item['userId'];
 
-            // create a new personnel
-            const newPersonnel = {
+            // create a JSON object
+            const jsonObj = {
+                userId: userId,
                 firstName: firstName,
                 lastName: lastName,
                 department: department,
+                userType: userType,
                 email: email
             };
 
-            // replace the item at that specified index
-            this.data[index] = newPersonnel;
+            // make a POST call
+            $.post('actions/update-personnel.php', jsonObj, function(res) {
+                // get all data again (automatically re-renders)
+                this.getData();
 
-            // recall the search method
-            this.search();
+            }.bind(this));
 
         }.bind(this));
     }
 
     delete(item) {
-        // remove the item from the list of data (this.data)
-        const index = this.data.indexOf(item);
-        this.data.splice(index, 1);
+        // get the item's userId
+        const userId = item['userId'];
 
-        // in case there are search parameters, reperform search
-        this.search();
+        // create a JSON object
+        const jsonObj = {
+            userId: userId
+        };
+
+        // make a post request to delete the item
+        $.post('actions/delete-personnel.php', jsonObj, function() {
+            // get all data (automatically re-renders the table)
+            this.getData();
+        }.bind(this));
     }
 
     render() {
@@ -235,7 +184,7 @@ class PersonnelTable {
             // add an event listener to the edit button
             editButton.addEventListener('click', function () { this.edit(item) }.bind(this));
             editButton.setAttribute('data-toggle', 'modal');
-            editButton.setAttribute('data-target', '#newPersonnelModal');
+            editButton.setAttribute('data-target', '#editPersonnelModal');
 
             // add an event listener to the delete button
             deleteButton.addEventListener('click', function () { this.delete(item) }.bind(this));

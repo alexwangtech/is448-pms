@@ -1,12 +1,19 @@
 <?php
 
 session_start();
+require_once('config/config.php');
 
 // if the session 'userId' is not set, redirect back to the login page
 if (!isset($_SESSION['userId'])) {
     header('Location: index.php');
     exit();
 }
+
+// using the SESSION userId, get all the data for this user
+$pdo = new PDO($CONN_STRING, $USERNAME, $PASSWORD);
+$stmt = $pdo->prepare('SELECT * FROM PMSUsers WHERE userId = :userId;');
+$stmt->execute(array(':userId' => $_SESSION['userId']));
+$userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -35,25 +42,25 @@ if (!isset($_SESSION['userId'])) {
             <div class="row">
                 <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>First Name</h4>
-                    <input class="form-control" value="Alexander" disabled>
+                    <input class="form-control" value="<?php echo $userInfo['firstName'];?>" disabled>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Last Name</h4>
-                    <input class="form-control" value="Wang" disabled>
+                    <input class="form-control" value="<?php echo $userInfo['lastName'];?>" disabled>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Department Name</h4>
-                    <input class="form-control" value="Software Development" disabled>
+                    <input class="form-control" value="<?php echo $userInfo['departmentName'];?>" disabled>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Email</h4>
-                    <input type="email" class="form-control" value="alex915979wang@gmail.com" disabled id="emailInput">
+                    <input type="email" class="form-control" value="<?php echo $userInfo['email'];?>" disabled id="emailInput">
                 </div>
                 <div id="emailDiv" class="col-1 d-flex align-items-end">
                     <button id="emailChangeButton" type="button" class="btn btn-outline-info">
@@ -68,7 +75,7 @@ if (!isset($_SESSION['userId'])) {
             <div class="row">
                 <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Password</h4>
-                    <input type="password" class="form-control" value="password" disabled id="passwordInput">
+                    <input type="password" class="form-control" value="<?php echo $userInfo['password'];?>" disabled id="passwordInput">
                 </div>
                 <div id="passwordDiv" class="col-1 d-flex align-items-end">
                     <button id="passwordChangeButton" type="button" class="btn btn-outline-info">
@@ -153,6 +160,9 @@ if (!isset($_SESSION['userId'])) {
         // set the value for the 'emailInputValue'
         emailInputValue = document.getElementById('emailInput').value;
 
+        // make a POST request to the update email file
+        $.post('actions/update-email.php', {userId: <?php echo $_SESSION['userId'] ?>, email: emailInputValue});
+
         // disable the text field
         document.getElementById('emailInput').disabled = true;
 
@@ -178,6 +188,9 @@ if (!isset($_SESSION['userId'])) {
     passwordSaveButton.addEventListener('click', function() {
         // set the value for the 'passwordInputValue'
         passwordInputValue = document.getElementById('passwordInput').value;
+
+        // make a POST request to the update password file
+        $.post('actions/update-password.php', {userId: <?php echo $_SESSION['userId'] ?>, password: passwordInputValue});
 
         // disable the text field and set the type to "password"
         document.getElementById('passwordInput').type = 'password'
