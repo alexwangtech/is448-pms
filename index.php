@@ -1,5 +1,13 @@
 <?php
 
+session_start();
+
+// if the session 'userId' is already set, redirect to the calendar page
+if (isset($_SESSION['userId'])) {
+    header('Location: calendar.php');
+    exit();
+}
+
 // retrieve the GET 'renderInvalid' parameter (if exists)
 if (isset($_GET['renderInvalid'])) {
     $renderInvalid = $_GET['renderInvalid'] == 'true' ? true : false;
