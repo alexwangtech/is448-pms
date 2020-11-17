@@ -57,6 +57,13 @@
     margin-left: 250px;
 }
 
+/* used to place an element on the top right */
+.absolute-top-right {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
 /* on smaller screens, where height is less than 450px, change the
 style of the sidenav (less padding + smaller font size) */
 @media screen and (max-height: 450px) {

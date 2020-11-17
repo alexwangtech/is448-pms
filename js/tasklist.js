@@ -11,7 +11,7 @@ class TaskList {
 
     getData() {
         // make a GET request to the action file
-        $.get('actions/get-all-tasks.php', {userId: this.userId}, function(res) {
+        $.get('actions/get-all-tasks.php', { userId: this.userId }, function (res) {
             // set the data, and then re-render the tasklist
             this.data = JSON.parse(res);
             this.renderData();
@@ -28,12 +28,25 @@ class TaskList {
         };
 
         // make a POST request
-        $.post('actions/create-new-task.php', jsonObj, function(res) {
+        $.post('actions/create-new-task.php', jsonObj, function (res) {
             // we can get all data again (re-renders automatically)
             this.getData();
+        }.bind(this));
+    }
 
-            // debug
-            console.dir(res);
+    deleteTask(task) {
+        // get the task id from the provided task
+        const taskId = task['taskId'];
+
+        // create a JSON object
+        const jsonObj = {
+            taskId: taskId
+        };
+
+        // make a POST request
+        $.post('actions/delete-task.php', jsonObj, function(res) {
+            // call the getData() method, which will grab all data and re-render
+            this.getData();
         }.bind(this));
     }
 
@@ -60,6 +73,13 @@ class TaskList {
             card.classList.add('card', 'shadow', 'p-3', 'mb-5', 'bg-white', 'rounded', 'h-100');
             card.style.width = '18rem';
 
+            // create the close button
+            let closeButton = document.createElement('button');
+            closeButton.setAttribute('type', 'button');
+            closeButton.setAttribute('aria-label', 'Close');
+            closeButton.classList.add('close', 'float-right', 'absolute-top-right', 'mt-2', 'mr-2');
+            closeButton.innerHTML = `<span aria-hidden="true">&times;</span>`;
+
             // create the card body
             let cardBody = document.createElement('div');
             cardBody.classList.add('card-body');
@@ -80,6 +100,7 @@ class TaskList {
             cardDescription.innerHTML = item['description'];
 
             // append all of the card body items into the card body
+            cardBody.append(closeButton);
             cardBody.append(cardTitle);
             cardBody.append(cardSubtitle);
             cardBody.append(cardDescription);
@@ -90,8 +111,18 @@ class TaskList {
             // append the card into the outer div
             outerDiv.append(card);
 
+            // if this is the beginning of the line AND last item, create flex div + end it
+            if (counter === 1 && (index + 1 === this.data.length)) {
+                flexDiv = document.createElement('div');
+                flexDiv.classList.add('d-flex');
+                outerDiv.classList.remove('m-3');
+                outerDiv.classList.add('ml-0', 'mr-3', 'mt-3', 'mb-3');
+                flexDiv.append(outerDiv);
+                mainDiv.append(flexDiv);
+                counter = counter + 1;
+            }
             // if this is the beginning of the line, create the flex div + append to it + increment
-            if (counter === 1) {
+            else if (counter === 1) {
                 flexDiv = document.createElement('div');
                 flexDiv.classList.add('d-flex');
                 outerDiv.classList.remove('m-3');
@@ -110,6 +141,12 @@ class TaskList {
                 flexDiv.append(outerDiv);
                 counter = counter + 1;
             }
+
+            // add an action listener to the close button
+            closeButton.addEventListener('click', function() {
+                // upon click, we want to call the delete function
+                this.deleteTask(item);
+            }.bind(this));
         });
     }
 }
