@@ -15,8 +15,15 @@ class PersonnelTable {
         // add an event listener to the search button
         document.getElementById(this.searchButtonId).addEventListener('click', this.search.bind(this));
 
-        // get the data (ASYNC)
-        this.getData();
+        // We need to get the privilege level for this user (assume it's false)
+        this.fullPrivilege = false;
+
+        // Async POST request to get/set the user privilege level
+        $.post('actions/get-privilege.php', function (res) {
+            this.fullPrivilege = (res === 'Owner');
+            // get the data (ASYNC)
+            this.getData();
+        }.bind(this));
 
         this.render();
     }
@@ -24,7 +31,7 @@ class PersonnelTable {
     getData() {
 
         // we will make a GET request and re-render when we get the data
-        $.get('actions/get-all-personnel.php', function(res) {
+        $.get('actions/get-all-personnel.php', function (res) {
             this.data = JSON.parse(res);
             this.search();
         }.bind(this));
@@ -119,7 +126,7 @@ class PersonnelTable {
             };
 
             // make a POST call
-            $.post('actions/update-personnel.php', jsonObj, function(res) {
+            $.post('actions/update-personnel.php', jsonObj, function (res) {
                 // get all data again (automatically re-renders)
                 this.getData();
 
@@ -138,7 +145,7 @@ class PersonnelTable {
         };
 
         // make a post request to delete the item
-        $.post('actions/delete-personnel.php', jsonObj, function() {
+        $.post('actions/delete-personnel.php', jsonObj, function () {
             // get all data (automatically re-renders the table)
             this.getData();
         }.bind(this));
@@ -178,6 +185,19 @@ class PersonnelTable {
                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                 </svg>`;
+
+            // If the user doesn't have full privilege (not an Owner), disable the "Edit" and "Delete" buttons.
+            // This only applies to table entries that have an "Owner" status.
+            // In addition, we want to set the color to gray so that the user explicity knows that the buttons are disabled.
+            if (!this.fullPrivilege && item['userType'] === 'Owner') {
+                editButton.setAttribute('disabled', 'true');
+                editButton.classList.remove('btn-outline-warning');
+                editButton.classList.add('btn-outline-secondary');
+
+                deleteButton.setAttribute('disabled', 'true');
+                deleteButton.classList.remove('btn-outline-danger');
+                deleteButton.classList.add('btn-outline-secondary');
+            }
 
             // add an event listener to the edit button
             editButton.addEventListener('click', function () { this.edit(item) }.bind(this));
