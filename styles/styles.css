@@ -67,15 +67,20 @@
 /* on smaller screens, where height is less than 450px, change the
 style of the sidenav (less padding + smaller font size) */
 @media screen and (max-height: 450px) {
-    .sidebar {padding-top: 15px}
-    .sidebar a {font-size: 18px}
+    .sidebar {
+        padding-top: 15px;
+    }
+    .sidebar a {
+        font-size: 18px;
+    }
 }
 
 #calendar table {
     border-collapse: separate;
 }
 
-#calendar th, tr {
+#calendar th,
+tr {
     height: 100px;
     width: 200px;
 }
@@ -93,5 +98,20 @@ style of the sidenav (less padding + smaller font size) */
 }
 
 #calendar td:hover {
-    background-color: #B8B8B8;
+    background-color: #b8b8b8;
+}
+
+/* animation for zoom-on-hover */
+.zoom-on-hover {
+    transition: transform 0.2s;
+}
+
+.zoom-on-hover:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+/* print newlines */
+.whitespace-preline {
+    white-space: pre-line;
 }

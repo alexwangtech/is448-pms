@@ -18,7 +18,7 @@ CREATE TABLE `PMSTasks` (
     `userId` INT NOT NULL,
     `taskName` VARCHAR(255) NOT NULL,
     `taskDueDate` DATE NOT NULL,
-    `description` VARCHAR(255) NOT NULL,
+    `description` TEXT NOT NULL,
     PRIMARY KEY (`taskId`),
     FOREIGN KEY (`userId`) REFERENCES `PMSUsers`(`userId`)
 );

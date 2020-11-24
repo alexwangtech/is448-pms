@@ -74,6 +74,44 @@ if (!isset($_SESSION['userId'])) {
             </div>
         </div>
     </div>
+
+    <!-- Edit Task Modal -->
+    <div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Your content goes here -->
+                    <form>
+                        <div class="form-group">
+                            <label for="editTaskName">Name</label>
+                            <input type="text" class="form-control" id="editTaskName" name="editTaskName"
+                                placeholder="Task Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTaskDueDate">Due Date</label>
+                            <input type="date" class="form-control" id="editTaskDueDate" name="editTaskDueDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTaskDescription">Description</label>
+                            <textarea class="form-control" id="editTaskDescription" rows="3"
+                                placeholder="Task Description"></textArea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-primary" id="editTaskSaveBtn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/tasklist.js"></script>
     <script>
     // use our PHP $_SESSION to set a userId value

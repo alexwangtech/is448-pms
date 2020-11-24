@@ -2,9 +2,15 @@ class TaskList {
     constructor(divId, userId) {
         this.divId = divId;
         this.userId = userId;
+        this.taskId;
 
         // set to empty for now, because we are fetching data using async request
         this.data = [];
+
+        // Add an event listener to the "Save" button of the "Edit Task" modal
+        document.getElementById('editTaskSaveBtn').addEventListener('click', function () {
+            this.updateTask();
+        }.bind(this));
 
         this.getData();
     }
@@ -34,6 +40,30 @@ class TaskList {
         }.bind(this));
     }
 
+    updateTask(task) {
+        // Get the values from the "Edit Task" modal inputs
+        const newName = document.getElementById('editTaskName').value;
+        const newDueDate = document.getElementById('editTaskDueDate').value;
+        const newDescription = document.getElementById('editTaskDescription').value;
+
+        // Create a JSON object
+        const jsonObj = {
+            taskId: this.taskId,
+            taskName: newName,
+            taskDueDate: newDueDate,
+            taskDescription: newDescription
+        };
+
+        // Make a POST request
+        $.post('actions/update-task.php', jsonObj, function (res) {
+            // we can get all data again (re-renders automatically)
+            this.getData();
+        }.bind(this));
+
+        // Hide the "Edit Task" modal
+        $('#editTaskModal').modal('hide');
+    }
+
     deleteTask(task) {
         // get the task id from the provided task
         const taskId = task['taskId'];
@@ -44,7 +74,7 @@ class TaskList {
         };
 
         // make a POST request
-        $.post('actions/delete-task.php', jsonObj, function(res) {
+        $.post('actions/delete-task.php', jsonObj, function (res) {
             // call the getData() method, which will grab all data and re-render
             this.getData();
         }.bind(this));
@@ -66,11 +96,11 @@ class TaskList {
 
             // create the outer div (for margins/spacing)
             let outerDiv = document.createElement('div');
-            outerDiv.classList.add('m-3');
+            outerDiv.classList.add('m-3', 'zoom-on-hover');
 
             // create the card outline and add class + style
             let card = document.createElement('div');
-            card.classList.add('card', 'shadow', 'p-3', 'mb-5', 'bg-white', 'rounded', 'h-100');
+            card.classList.add('card', 'shadow', 'p-3', 'bg-white', 'rounded', 'h-100');
             card.style.width = '18rem';
 
             // create the close button
@@ -96,7 +126,7 @@ class TaskList {
 
             // create the card description
             let cardDescription = document.createElement('p');
-            cardDescription.classList.add('card-text');
+            cardDescription.classList.add('card-text', 'whitespace-preline');
             cardDescription.innerHTML = item['description'];
 
             // append all of the card body items into the card body
@@ -143,9 +173,29 @@ class TaskList {
             }
 
             // add an action listener to the close button
-            closeButton.addEventListener('click', function() {
+            closeButton.addEventListener('click', function () {
                 // upon click, we want to call the delete function
                 this.deleteTask(item);
+            }.bind(this));
+
+            // Add an event listener to the overall card body (double click)
+            outerDiv.addEventListener('dblclick', function () {
+                // Get the references to the input fields of the "Edit Task" modal
+                const editTaskName = document.getElementById('editTaskName');
+                const editTaskDueDate = document.getElementById('editTaskDueDate');
+                const editTaskDescription = document.getElementById('editTaskDescription');
+
+                // We want to populate the fields of the "Edit Task Modal" with the data
+                editTaskName.value = item['taskName'];
+                editTaskDueDate.value = item['taskDueDate'];
+                editTaskDescription.value = item['description'];
+
+                // Set the global taskId value
+                this.taskId = item['taskId'];
+
+                // Open the "Edit Task" Modal using jQuery
+                $('#editTaskModal').modal('show');
+
             }.bind(this));
         });
     }
