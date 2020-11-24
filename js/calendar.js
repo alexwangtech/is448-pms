@@ -76,10 +76,33 @@ class Calendar {
 
     getData() {
         // use an ajax GET request
-        $.get('actions/get-all-tasks.php', {userId: this.userId}, function(res) {
-            // set the data
+        $.get('actions/get-all-tasks.php', { userId: this.userId }, function (res) {
+            // set the data + render the calendar (to refresh table data coloring)
             this.taskData = JSON.parse(res);
+            this.renderCalendar();
         }.bind(this));
+    }
+
+    containsTasks(day) {
+        // The return value
+        let returnVal = false;
+
+        this.taskData.forEach((item) => {
+            // get the month, year, and date
+            const itemYear = parseInt(item['taskDueDate'].substring(0, 4));
+            const itemMonth = parseInt(item['taskDueDate'].substring(5, 7));
+            const itemDate = parseInt(item['taskDueDate'].substring(8, 10));
+
+            // compare the values to the current provided values
+            if (itemYear === this.currYear &&
+                itemMonth === this.currMonth &&
+                itemDate === day) {
+
+                returnVal = true;
+            }
+        });
+
+        return returnVal;
     }
 
     displayTasks(day) {
@@ -98,10 +121,6 @@ class Calendar {
                 itemDate === day) {
                 todayTasks.push(item);
             }
-
-            console.log(itemYear, this.currYear);
-            console.log(itemMonth, this.currMonth);
-            console.log(itemDate, day);
         });
 
         // get the div for displaying tasks (refactor this later as an object argument)
@@ -144,7 +163,8 @@ class Calendar {
 
         // if the tasks div still has nothing, append "no tasks"
         if (tasksDiv.innerHTML === '') {
-            let noTasks = document.createElement('h3');
+            let noTasks = document.createElement('h2');
+            noTasks.classList.add('text-light', 'text-center');
             noTasks.innerHTML = 'No Tasks';
             tasksDiv.append(noTasks);
         }
@@ -217,6 +237,13 @@ class Calendar {
                 currTd.addEventListener('click', function () {
                     this.displayTasks(parseInt(currTd.innerHTML));
                 }.bind(this));
+
+                const containsTask = this.containsTasks(parseInt(currTd.innerHTML));
+
+                // Mark the table data if it contains tasks
+                if (containsTask) {
+                    currTd.classList.add('border', 'border-danger');
+                }
 
                 currRow.appendChild(currTd);
             }

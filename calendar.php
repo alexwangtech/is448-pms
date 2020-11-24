@@ -30,7 +30,7 @@ if (!isset($_SESSION['userId'])) {
                 <div class="col">
                     <div id="calendar"></div>
                 </div>
-                <div class="col">
+                <div class="col bg-dark">
                     <div id="tasksDiv"></div>
                 </div>
             </div>
