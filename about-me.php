@@ -60,7 +60,8 @@ $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="row">
                 <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Email</h4>
-                    <input type="email" class="form-control" value="<?php echo $userInfo['email'];?>" disabled id="emailInput">
+                    <input type="email" class="form-control" value="<?php echo $userInfo['email'];?>" disabled
+                        id="emailInput">
                 </div>
                 <div id="emailDiv" class="col-1 d-flex align-items-end">
                     <button id="emailChangeButton" type="button" class="btn btn-outline-info">
@@ -75,7 +76,8 @@ $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="row">
                 <div class="col-sm-8 col-lg-6 col-xl-4">
                     <h4>Password</h4>
-                    <input type="password" class="form-control" value="<?php echo $userInfo['password'];?>" disabled id="passwordInput">
+                    <input type="password" class="form-control" value="<?php echo $userInfo['password'];?>" disabled
+                        id="passwordInput">
                 </div>
                 <div id="passwordDiv" class="col-1 d-flex align-items-end">
                     <button id="passwordChangeButton" type="button" class="btn btn-outline-info">
@@ -89,7 +91,9 @@ $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
+    <script src="js/functions.js"></script>
     <script>
+
     // get the initial values of the text fields
     let emailInputValue = document.getElementById('emailInput').value;
     let passwordInputValue = document.getElementById('passwordInput').value;
@@ -157,11 +161,21 @@ $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // event listener for the email "Save" button
     emailSaveButton.addEventListener('click', function() {
+
+        // Check if the email is valid - if it isn't, render an email to the user
+        if (!validateEmail(document.getElementById('emailInput').value)) {
+            alert('Please enter a valid email!');
+            return;
+        }
+
         // set the value for the 'emailInputValue'
         emailInputValue = document.getElementById('emailInput').value;
 
         // make a POST request to the update email file
-        $.post('actions/update-email.php', {userId: <?php echo $_SESSION['userId'] ?>, email: emailInputValue});
+        $.post('actions/update-email.php', {
+            userId: <?php echo $_SESSION['userId'] ?>,
+            email: emailInputValue
+        });
 
         // disable the text field
         document.getElementById('emailInput').disabled = true;
@@ -186,11 +200,21 @@ $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // event listener for the password "Save" button
     passwordSaveButton.addEventListener('click', function() {
+
+        // Check if the password is blank - if it is, alert the user
+        if (document.getElementById('passwordInput').value == '') {
+            alert('Please enter a valid password!');
+            return;
+        }
+
         // set the value for the 'passwordInputValue'
         passwordInputValue = document.getElementById('passwordInput').value;
 
         // make a POST request to the update password file
-        $.post('actions/update-password.php', {userId: <?php echo $_SESSION['userId'] ?>, password: passwordInputValue});
+        $.post('actions/update-password.php', {
+            userId: <?php echo $_SESSION['userId'] ?>,
+            password: passwordInputValue
+        });
 
         // disable the text field and set the type to "password"
         document.getElementById('passwordInput').type = 'password'
