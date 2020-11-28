@@ -168,8 +168,8 @@ else {
                 <div class="modal-footer" id="modalFooter">
                     <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
                         onclick="clearCreateFields()" id="cancelButton">Cancel</button>
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
-                        onclick="createPersonnel()" id="createButton">Create</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="createPersonnel()"
+                        id="createButton">Create</button>
                 </div>
             </div>
         </div>
@@ -224,14 +224,14 @@ else {
                 <div class="modal-footer" id="modalFooter">
                     <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
                         id="cancelEditButton">Cancel</button>
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
-                        id="saveEditButton">Save</button>
+                    <button type="button" class="btn btn-outline-primary" id="saveEditButton">Save</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="js/personnel-table.js"></script>
+    <script src="js/functions.js"></script>
     <script>
     const personnelIds = [
         'personnelTableBody',
@@ -274,6 +274,9 @@ else {
     }
 
     function createPersonnel() {
+        // A string for holding any potential alerts
+        let alertString = '';
+
         const createFirstName = document.getElementById('createFirstName').value;
         const createLastName = document.getElementById('createLastName').value;
         const createDepartment = document.getElementById('createDepartment').value;
@@ -281,10 +284,31 @@ else {
         const createEmail = document.getElementById('createEmail').value;
         const createPassword = document.getElementById('createPassword').value;
 
+        // If any of the fields are empty, add that to the alert string
+        if (createFirstName == '' || createLastName == '' || createDepartment == '' ||
+            createUserType == '' || createEmail == '' || createPassword == '') {
+
+            alertString += 'Please fill in any empty fields!';
+        }
+
+        // If the email field is filled in AND incorrect format, append to the alert string
+        if (createEmail != '' && !validateEmail(createEmail)) {
+            alertString += '\n' + 'Please enter a valid email!';
+        }
+
+        // If the alert string is not empty, display it
+        if (alertString != '') {
+            alert(alertString);
+            return;
+        }
+
         personnelTable.add(createFirstName, createLastName, createDepartment, createUserType, createEmail,
             createPassword);
 
         clearCreateFields();
+
+        // Hide the modal
+        $('#newPersonnelModal').modal('hide');
     }
     </script>
 </body>

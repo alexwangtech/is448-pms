@@ -112,6 +112,27 @@ class PersonnelTable {
             const userType = document.getElementById('editUserType').value;
             const email = document.getElementById('editEmail').value;
 
+            // String for storing any alerts that need to be displayed
+            let alertString = '';
+
+            // If there are any blank values, append to the alert string
+            if (firstName == '' || lastName == '' || department == '' ||
+                userType == '' || email == '') {
+
+                alertString += 'Please fill out any missing values!';
+            }
+
+            // If the email is not formatted, append to the alert string
+            if (!validateEmail(email)) {
+                alertString += '\n' + 'Please enter a valid email!';
+            }
+
+            // If there are alerts, alert the user and stop the flow of this function
+            if (alertString != '') {
+                alert(alertString);
+                return;
+            }
+
             // get the userId of the current item
             const userId = item['userId'];
 
@@ -131,6 +152,9 @@ class PersonnelTable {
                 this.getData();
 
             }.bind(this));
+
+            // Close the modal manually
+            $('#editPersonnelModal').modal('hide');
 
         }.bind(this));
     }
