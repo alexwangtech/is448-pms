@@ -25,6 +25,12 @@ class TaskList {
     }
 
     createNewTask(taskName, taskDueDate, taskDescription) {
+        // If there are any blank values, display an alert to the user
+        if (taskName == '' || taskDueDate == '' || taskDescription == '') {
+            alert('Please fill out all fields!');
+            return;
+        }
+
         // create a JSON object
         const jsonObj = {
             userId: this.userId,
@@ -45,6 +51,12 @@ class TaskList {
         const newName = document.getElementById('editTaskName').value;
         const newDueDate = document.getElementById('editTaskDueDate').value;
         const newDescription = document.getElementById('editTaskDescription').value;
+
+        // If any of the values are blank, alert the user and end this function
+        if (newName == '' || newDueDate == '' || newDescription == '') {
+            alert('Please fill out all fields!');
+            return;
+        }
 
         // Create a JSON object
         const jsonObj = {

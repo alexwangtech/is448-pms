@@ -26,7 +26,8 @@ if (!isset($_SESSION['userId'])) {
     <div id="mainContent">
         <?php include 'components/navbar.php';?>
         <h1 class="display-4 d-inline-block" style="width:1180px;">My Tasks</h1>
-        <button type="button" class="btn btn-outline-success mb-3" data-toggle="modal" data-target="#newTaskModal">
+        <button type="button" class="btn btn-outline-success mb-3" data-toggle="modal" data-target="#newTaskModal"
+            onclick="clearNewTaskFields()">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -68,8 +69,7 @@ if (!isset($_SESSION['userId'])) {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
                         onclick="clearNewTaskFields()">Cancel</button>
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
-                        onclick="createNewTask()">Create</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="createNewTask()">Create</button>
                 </div>
             </div>
         </div>
@@ -136,9 +136,6 @@ if (!isset($_SESSION['userId'])) {
 
         // call the createTask() method from our TaskList instance
         taskList.createNewTask(taskName, taskDueDate, taskDescription);
-
-        // clear the values from the modal
-        clearNewTaskFields();
     }
     </script>
 </body>
