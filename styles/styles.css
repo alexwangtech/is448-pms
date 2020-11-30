@@ -99,6 +99,7 @@ tr {
 
 #calendar td:hover {
     background-color: #b8b8b8;
+    cursor: pointer;
 }
 
 /* animation for zoom-on-hover */
