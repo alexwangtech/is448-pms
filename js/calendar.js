@@ -14,7 +14,7 @@ class Calendar {
         this.table = document.createElement('table');
         this.buttonDiv = document.createElement('div');
 
-        // get the current date,sot hat we can set it on the calendar
+        // get the current date,so that we can set it on the calendar
         let date = new Date();
         this.currMonth = date.getMonth() + 1; // REMEMBER: The range is 0-11, so we need to increment
         this.currDay = date.getDay(); // REMEMBER: THe range is 0-6, NOT 1-7

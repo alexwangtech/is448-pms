@@ -44,6 +44,9 @@ class TaskList {
             // we can get all data again (re-renders automatically)
             this.getData();
         }.bind(this));
+
+        // We also need to manually close the modal
+        $('#newTaskModal').modal('hide');
     }
 
     updateTask(task) {
