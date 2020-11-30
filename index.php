@@ -25,6 +25,7 @@ if (isset($_GET['renderInvalid'])) {
     <?php include 'includes/bootstrap-scripts.php';?>
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="icon" href="favicon.ico">
+    <script src="js/index.js" defer></script>
     <title>Log In</title>
 </head>
 
@@ -42,16 +43,14 @@ if (isset($_GET['renderInvalid'])) {
                       </div>';
             }
             ?>
-            <form action="actions/login.php" method="POST">
+            <form id="loginForm" action="actions/login.php" method="POST" onsubmit="return validateLoginForm()">
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
-                        required>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
-                        required>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-dark w-100 text-center">Login</button>
             </form>
